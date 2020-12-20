@@ -205,6 +205,7 @@ class expenseSorter {
   constructor(expensesArr) {
     this.expensesArr = expensesArr;
     this.expensesMemo = {};
+    this.tripleMemo = {};
   }
 
   find2020 = () => {
@@ -219,7 +220,33 @@ class expenseSorter {
     }
     return "none";
   };
+
+  findTriplet = () => {
+    this.createMultipliers();
+
+    for (let i = 0; i < this.expensesArr.length; i++) {
+      let curr = this.expensesArr[i];
+      let diff = 2020 - curr;
+      if (this.tripleMemo.hasOwnProperty(diff)) {
+        return this.tripleMemo[diff] * curr;
+      }
+    }
+    return "none";
+  };
+
+  createMultipliers = () => {
+    for (let i = 0; i < this.expensesArr.length; i++) {
+      for (let j = 0; j < this.expensesArr.length; j++) {
+        if (i !== j) {
+          let sum = this.expensesArr[i] + this.expensesArr[j];
+          let product = this.expensesArr[i] * this.expensesArr[j];
+          this.tripleMemo[sum] = product;
+        }
+      }
+    }
+  };
 }
 
 let test = new expenseSorter(input);
 console.log(test.find2020());
+console.log(test.findTriplet());
