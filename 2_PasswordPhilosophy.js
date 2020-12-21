@@ -1006,7 +1006,7 @@ class passwordDebugger {
     this.passwords = passwords;
   }
 
-  determineValidity(entry) {
+  determineValidity1(entry) {
     const components = entry.split(" ");
     const range = components[0].split("-");
     const min = range[0];
@@ -1018,16 +1018,37 @@ class passwordDebugger {
     return occurences >= min && occurences <= max;
   }
 
-  countValidPws() {
+  determineValidity2(entry) {
+    const components = entry.split(" ");
+    const positions = components[0].split("-");
+    const pos1 = positions[0];
+    const pos2 = positions[1];
+    const letter = components[1][0];
+    const password = components[2];
+
+    let isValid1 = password.charAt([pos1 - 1]) === letter;
+    let isValid2 = password.charAt([pos2 - 1]) === letter;
+
+    return (isValid1 && !isValid2) || (isValid2 && !isValid1);
+  }
+
+  countValidPws1() {
     let count = 0;
     this.passwords.forEach((password) => {
-      if (this.determineValidity(password)) count++;
+      if (this.determineValidity1(password)) count++;
+    });
+    return count;
+  }
+  countValidPws2() {
+    let count = 0;
+    this.passwords.forEach((password) => {
+      if (this.determineValidity2(password)) count++;
     });
     return count;
   }
 }
 
 const example = new passwordDebugger(passwords);
-//example.determineValidity(passwords[4]);
-console.log(example.determineValidity(passwords[0]));
-console.log(example.countValidPws());
+
+console.log(example.countValidPws1());
+console.log(example.countValidPws2());
