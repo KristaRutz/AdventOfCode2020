@@ -324,7 +324,7 @@ let slope = [
   "....##.#..###.#.........#...##.",
 ];
 
-function toboggan(slope) {
+function toboggan(slope, right, down) {
   let x = 0;
   let y = 0;
   let count = 0;
@@ -332,10 +332,16 @@ function toboggan(slope) {
     if (slope[y].charAt(x % slope[0].length) === "#") {
       count++;
     }
-    x += 3;
-    y++;
+    x += right;
+    y += down;
   }
   return count;
 }
 
-console.log(toboggan(slope));
+let final =
+  toboggan(slope, 3, 1) *
+  toboggan(slope, 1, 1) *
+  toboggan(slope, 5, 1) *
+  toboggan(slope, 7, 1) *
+  toboggan(slope, 1, 2);
+console.log(final);
