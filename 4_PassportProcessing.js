@@ -2637,9 +2637,10 @@ let requiredFields = ["byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"];
 function checkPassportFields(passport) {
   let isValid = true;
   requiredFields.forEach((e) => {
+    let hasField = passport.hasOwnProperty(e);
     if (
-      passport.hasOwnProperty(e) !== true ||
-      validateData(e, passport[e]) !== true
+      hasField !== true ||
+      (hasField && validateData(e, passport[e]) !== true)
     ) {
       isValid = false;
     }
@@ -2674,7 +2675,7 @@ function validateData(field, data) {
       }
       break;
     case 4:
-      isValid = data[0] === "#" && data.length == 7;
+      isValid = data[0] === "#" && data.length === 7;
       break;
     case 5:
       isValid =
@@ -2687,7 +2688,7 @@ function validateData(field, data) {
         data === "oth";
       break;
     case 6:
-      isValid = data.length = 9;
+      isValid = data.length === 9;
       break;
     default:
       return isValid;
@@ -2705,5 +2706,3 @@ function countPassports(passports) {
 
 console.log(checkPassportFields(data[0]));
 console.log(countPassports(data));
-
-//console.log(validateData("hgt", "156cm"));
